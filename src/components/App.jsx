@@ -8,11 +8,11 @@ import Modal from './Modal/Modal';
 
 function App() {
   const [data, setData] = useState([]);
-  const [loader, setLoader] = useState(false);
+  // const [loader, setLoader] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [totalHits, setTotalHits] = useState(0);
-  const [pagesPerPage, setPagesPerPage] = useState(12);
+  const [pagesPerPage] = useState(12);
   const [modalBool, setModalBool]=useState(false)
   const [modalSrc, setModalSrc]=useState('')
   const [modalAlt, setModalAlt]=useState('')
@@ -22,7 +22,7 @@ function App() {
       return;
     }
     userSearchQuery();
-  }, [searchQuery, page]);
+  });
 
   async function userSearchQuery() {
     try {
