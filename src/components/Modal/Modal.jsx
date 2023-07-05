@@ -1,29 +1,21 @@
 import style from './Modal.module.css';
 
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 
-export default class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyPress);
-  }
+function Modal({ closeModal, children }) {
+  useEffect(() => window.addEventListener('keydown', handleKeyPress));
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyPress);
-  }
-
-  handleKeyPress = e => {
+  const handleKeyPress = e => {
     if (e.key === 'Escape') {
-      this.props.closeModal();
+      closeModal();
     }
   };
 
-  render() {
-    return (
-      <div className={style.modal_container} onClick={this.props.closeModal}>
-        <div className={style.modal}>{this.props.children}</div>
-      </div>
-    );
-  }
+  return (
+    <div className={style.modal_container} onClick={closeModal}>
+      <div className={style.modal}>{children}</div>
+    </div>
+  );
 }
 
-
+export default Modal;

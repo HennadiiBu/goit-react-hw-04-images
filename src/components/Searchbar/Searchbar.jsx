@@ -1,40 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-export default class Searchbar extends Component {
-  state = {
-    query: '',
+function Searchbar({ newUserQuery }) {
+  const [query, setQuery] = useState('');
+
+  const userQuery = event => {
+    setQuery(event.target.value);
   };
 
-  userQuery = event => {
-    this.setState({
-      query: event.target.value,
-    });
-  };
-
-  userFormSubmit = event => {
+  const userFormSubmit = event => {
     event.preventDefault();
-    const userSearchQuery = this.state.query;
-    this.props.newUserQuery(userSearchQuery);
+    newUserQuery(query);
   };
 
-  render() {
-    return (
-      <header className="searchbar">
-        <form className="form" onSubmit={this.userFormSubmit}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
-          </button>
+  return (
+    <header className="searchbar">
+      <form className="form" onSubmit={userFormSubmit}>
+        <button type="submit" className="button">
+          <span className="button-label">Search</span>
+        </button>
 
-          <input
-            className="input"
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={this.userQuery}
-          />
-        </form>
-      </header>
-    );
-  }
+        <input
+          className="input"
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          onChange={userQuery}
+        />
+      </form>
+    </header>
+  );
 }
+
+export default Searchbar;

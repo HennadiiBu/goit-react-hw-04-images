@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
-import style from './Button.module.css'
+import style from './Button.module.css';
 
-export default class Button extends Component {
-  state = {
-    page: this.props.pageNum,
+import React from 'react';
+
+function Button({loadMore}) {
+
+  const ClickLoadMore = () => {
+    loadMore();
   };
 
-  ClickLoadMore = () => {
-    this.props.loadMore();
-  };
-
-  render() {
-    return <button onClick={this.ClickLoadMore} className={style.loadMoreBtn}>Load more...</button>;
-  }
+  return (
+    <button onClick={ClickLoadMore} className={style.loadMoreBtn}>
+      Load more...
+    </button>
+  );
 }
+
+export default Button;
