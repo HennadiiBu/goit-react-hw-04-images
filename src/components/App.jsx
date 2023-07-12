@@ -16,16 +16,18 @@ function App() {
   const [modalBool, setModalBool]=useState(false)
   const [modalSrc, setModalSrc]=useState('')
   const [modalAlt, setModalAlt]=useState('')
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     if (searchQuery === '') {
       return;
     }
-    userSearchQuery();
-  });
+    userSearchQuery(searchQuery, page);
+  },[searchQuery, page]);
 
-  async function userSearchQuery() {
+  async function userSearchQuery(searchQuery, page) {
     try {
+      setIsFetching(true)
       const { hits, totalHits } = await fetchPixabay(
         searchQuery,
         page,
@@ -35,6 +37,9 @@ function App() {
       setTotalHits(totalHits);
     } catch (err) {
       console.log(err);
+    }
+    finally{
+      setIsFetching(false)
     }
   }
 
