@@ -24,7 +24,7 @@ function App() {
       return;
     }
     userSearchQuery(searchQuery, page);
-  },[]);
+  });
 
   async function userSearchQuery(searchQuery, page) {
     try {
