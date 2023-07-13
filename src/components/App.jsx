@@ -12,38 +12,31 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [totalHits, setTotalHits] = useState(0);
-  const [pagesPerPage] = useState(12);
-  const [modalBool, setModalBool]=useState(false)
-  const [modalSrc, setModalSrc]=useState('')
-  const [modalAlt, setModalAlt]=useState('')
-  const [isFetching, setIsFetching] = useState(false);
-
+  const [modalBool, setModalBool] = useState(false);
+  const [modalSrc, setModalSrc] = useState('');
+  const [modalAlt, setModalAlt] = useState('');
 
   useEffect(() => {
+    async function userSearchQuery(searchQuery, page) {
+      try {
+        const { hits, totalHits } = await fetchPixabay(searchQuery, page);
+
+        if (page === 1) {
+          setData(hits);
+        } else {
+          setData(prevState => [...prevState, ...hits]);
+        }
+        setTotalHits(totalHits);
+      } catch (err) {
+        console.log(err);
+      } finally {
+      }
+    }
     if (searchQuery === '') {
       return;
     }
     userSearchQuery(searchQuery, page);
-  },[searchQuery, page]);
-
-  async function userSearchQuery(searchQuery, page) {
-    try {
-      setIsFetching(true)
-      const { hits, totalHits } = await fetchPixabay(
-        searchQuery,
-        page,
-        pagesPerPage
-      );
-      setData([...data, ...hits]);
-      setTotalHits(totalHits);
-    } catch (err) {
-      console.log(err);
-      console.log(isFetching)
-    }
-    finally{
-      setIsFetching(false)
-    }
-  }
+  }, [searchQuery, page, data]);
 
   const newUserQuery = query => {
     setPage(1);
@@ -55,17 +48,17 @@ function App() {
   };
 
   const handleOpenModal = (src, alt) => {
-console.log(src)
-console.log(modalBool)
-    setModalAlt(alt)
-    setModalBool(true)
-    setModalSrc(src)
+    setModalAlt(alt);
+    setModalBool(true);
+    setModalSrc(src);
   };
 
-  const handleCloseModal = () => {
-    setModalAlt('')
-    setModalBool(false)
-    setModalSrc('')
+  const handleCloseModal = event => {
+    if (event.target === event.currentTarget) {
+      setModalAlt('');
+      setModalBool(false);
+      setModalSrc('');
+    }
   };
 
   const isVisibleBtn = data.length !== 0 && data.length < totalHits;
@@ -75,10 +68,7 @@ console.log(modalBool)
       <Container>
         <Searchbar newUserQuery={newUserQuery} />
       </Container>
-      <ImageGallery
-        resultQuery={data}
-        openFullScreenMode={handleOpenModal}
-      />
+      <ImageGallery resultQuery={data} openFullScreenMode={handleOpenModal} />
       {isVisibleBtn && <Button pageNum={page} loadMore={loadMore} />}
       {modalBool && (
         <Modal closeModal={handleCloseModal}>
