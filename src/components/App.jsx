@@ -24,7 +24,7 @@ function App() {
       return;
     }
     userSearchQuery(searchQuery, page);
-  },[searchQuery, page]);
+  },[]);
 
   async function userSearchQuery(searchQuery, page) {
     try {
@@ -38,6 +38,7 @@ function App() {
       setTotalHits(totalHits);
     } catch (err) {
       console.log(err);
+      console.log(isFetching)
     }
     finally{
       setIsFetching(false)
