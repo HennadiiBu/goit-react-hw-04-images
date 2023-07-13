@@ -18,6 +18,7 @@ function App() {
   const [modalAlt, setModalAlt]=useState('')
   const [isFetching, setIsFetching] = useState(false);
 
+
   useEffect(() => {
     if (searchQuery === '') {
       return;
@@ -53,7 +54,8 @@ function App() {
   };
 
   const handleOpenModal = (src, alt) => {
-
+console.log(src)
+console.log(modalBool)
     setModalAlt(alt)
     setModalBool(true)
     setModalSrc(src)
