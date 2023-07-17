@@ -54,11 +54,9 @@ function App() {
   };
 
   const handleCloseModal = event => {
-    if (event.target === event.currentTarget) {
-      setModalAlt('');
-      setModalBool(false);
-      setModalSrc('');
-    }
+    setModalAlt('');
+    setModalBool(false);
+    setModalSrc('');
   };
 
   const isVisibleBtn = data.length !== 0 && data.length < totalHits;
